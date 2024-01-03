@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel: ContentViewModel
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(viewModel.combineLabel)
+            Text(viewModel.asyncAwaitLabel)
         }
         .padding()
+        
+        VStack {
+            Button("Call Combine") {
+                viewModel.callCombine()
+            }
+            
+            Button("Call async/await") {
+                Task {
+                    await viewModel.callAsyncAwait()
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: ContentViewModel())
 }
